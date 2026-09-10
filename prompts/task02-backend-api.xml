@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <meta>
+    <project>E-commerce Fullstack Demo</project>
+    <taskId>TASK-02</taskId>
+    <title>Backend API: Product entity + GET /api/products (phan trang) + GET /{id}</title>
+    <estimatedTime>60-90 minutes</estimatedTime>
+  </meta>
+  <goal>
+    Xay dung API doc san pham hoan chinh tu PostgreSQL: entity Product map dung bang products
+    da co, GET /api/products ho tro phan trang (page, size, tra kem totalPages/totalElements),
+    GET /api/products/{id} tra 404 khi khong tim thay.
+  </goal>
+  <context>
+    - TASK-01 da xong: Spring Boot chay o port 8080, ket noi DB tot, bang products co du lieu.
+    - Bang products: id (bigint, khoa chinh), name, price numeric, image_url, category, description.
+    - Khong duoc sua cau truc bang (init.sql la nguon that).
+  </context>
+  <scope>
+    <inScope>
+      - Product entity (JPA) map dung bang; ProductDTO tra ra API (khong lo thong tin noi bo)
+      - ProductRepository (JpaRepository); ProductService; ProductController
+      - GET /api/products?page=0&size=8 -> {"content":[...], "totalPages":n, "totalElements":n, "page":0, "size":8}
+      - GET /api/products/{id} -> 200 + JSON, hoac 404 {"error":"Product not found"}
+      - Xu ly loi: 404 cho sai id; 500 tra JSON loi chung {"error":"Internal error"}
+    </inScope>
+    <outOfScope>
+      - KHONG lam POST/PUT/DELETE (CRUD ghi)
+      - KHONG lam tim kiem/loc/category filter (task sau neu can)
+      - KHONG lam security, validation phuc tap, cache
+    </outOfScope>
+  </scope>
+  <hardRules>
+    - Gia tra ve API la number nguyen (VND), khong dinh dang string
+    - Dung DTO, khong tra truc tiep Entity
+    - Code theo lop: controller -> service -> repository
+  </hardRules>
+  <tasks>
+    1. Tao Product entity + ProductDTO
+    2. ProductRepository + ProductService (phan trang bang Pageable)
+    3. ProductController: 2 endpoint + xu ly 404
+    4. Global exception handler don gian (@RestControllerAdvice)
+    5. Tu test bang curl theo testPlan
+  </tasks>
+  <constraints>
+    - 60-90 phut. Khong doi port, khong sua DB
+  </constraints>
+  <acceptanceCriteria>
+    - [ ] GET /api/products tra dung 8 san pham (page=0&size=8), co totalElements = so dong trong DB
+    - [ ] GET /api/products/1 tra dung 1 san pham
+    - [ ] GET /api/products/9999 -> HTTP 404 + JSON loi
+    - [ ] Backend khoi dong khong loi, log khong co exception
+  </acceptanceCriteria>
+  <testPlan>
+    1. mvn spring-boot:run
+    2. curl "http://localhost:8080/api/products?page=0&size=8" -> kiem tra cau truc JSON
+    3. curl "http://localhost:8080/api/products/1" vs "/9999" (doi chieu AC)
+    4. curl page=1&size=4 -> content khac page=0
+    5. Doi chieu so lieu voi DBeaver: SELECT count(*) FROM products
+  </testPlan>
+  <outputRequired>
+    - Danh sach file da tao/sua + mo ta tung endpoint
+    - Pass/fail tung muc testPlan (kem curl da chay)
+    - Rui ro (neu co)
+  </outputRequired>
+</prompt>

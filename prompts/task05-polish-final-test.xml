@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <meta>
+    <project>E-commerce Fullstack Demo</project>
+    <taskId>TASK-05</taskId>
+    <title>Hoàn thiện trau chuốt giao diện và chạy kiểm thử hồi quy toàn diện</title>
+    <estimatedTime>30-60 phút</estimatedTime>
+  </meta>
+
+  <goal>
+    Đây là bước cuối cùng rồi, bạn hãy tập trung trau chuốt lại trải nghiệm người dùng sao cho thật tinh tế: làm màn hình thông báo giỏ hàng trống thật đẹp mắt, đồng bộ lại khoảng cách lề và font chữ trên toàn bộ giao diện, rà soát lại hiển thị responsive ở tất cả các trang, đồng thời chạy kiểm thử hồi quy toàn bộ hệ thống trước khi nghiệm thu nhé.
+  </goal>
+
+  <context>
+    Tất cả các tính năng chính từ Task 1 đến Task 4 đều đã hoàn tất và chạy ổn định. Vì đây là task đóng gói cuối cùng nên chúng ta sẽ không thêm bớt bất kỳ tính năng mới nào mà chỉ tập trung vào việc làm đẹp giao diện và kiểm thử chất lượng.
+  </context>
+
+  <scope>
+    <inScope>
+      - Hoàn thiện giao diện lúc giỏ hàng trống gồm icon minh họa, thông báo thân thiện và một nút bấm "Tiếp tục mua sắm" dẫn về trang chủ.
+      - Đảm bảo tất cả các chỗ hiển thị hình ảnh trên web đều đã có cơ chế fallback hiển thị ảnh mặc định khi link ảnh bị hỏng.
+      - Chuẩn hóa lại thanh Header đồng bộ trên cả hai trang (từ logo thương hiệu, giỏ hàng cho đến trạng thái active).
+      - Dùng DevTools rà soát lại khả năng responsive ở 3 mốc kích thước màn hình phổ biến là 375px, 768px và 1280px cho cả hai trang.
+      - Chạy kiểm thử hồi quy: chạy lại toàn bộ các bước testPlan từ Task 1 đến Task 4 và ghi chép lại kết quả chi tiết.
+      - Bổ sung cập nhật file README.md hoàn chỉnh gồm mô tả các chức năng, hướng dẫn các câu lệnh khởi chạy và thông số kết nối DBeaver.
+    </inScope>
+
+    <outOfScope>
+      - Tuyệt đối không thêm các tính năng ngoài lề như ô tìm kiếm sản phẩm, trang chi tiết hay quy trình thanh toán đặt hàng.
+      - Không tái cấu trúc mã nguồn, không đổi thư viện hay nâng cấp phiên bản phần mềm.
+    </outOfScope>
+  </scope>
+
+  <hardRules>
+    - Chỉ được phép tinh chỉnh lại phần CSS và bổ sung các ca kiểm thử; tuyệt đối không can thiệp thay đổi các logic nghiệp vụ đã chạy ổn định.
+    - Nếu trong quá trình chạy kiểm tra hồi quy mà phát hiện ra lỗi thì phải báo cáo ngay lập tức chứ không được tự tiện sửa logic ngầm.
+  </hardRules>
+
+  <tasks>
+    1. Thiết kế màn hình giỏ hàng trống thật trực quan kèm nút quay lại mua sắm.
+    2. Đồng bộ thanh Header và kiểm tra giao diện trên 3 kích thước màn hình khác nhau.
+    3. Tiến hành chạy lại toàn bộ các kịch bản testPlan từ Task 1 đến Task 4.
+    4. Cập nhật tài liệu hướng dẫn README.md đầy đủ và rõ ràng nhất.
+    5. Viết báo cáo tổng kết toàn bộ dự án.
+  </tasks>
+
+  <constraints>
+    Thời gian thực hiện gói gọn trong khoảng 30 đến 60 phút.
+  </constraints>
+
+  <acceptanceCriteria>
+    - [ ] Khi giỏ hàng trống thì giao diện hiện thông báo đẹp mắt và nút quay về trang chủ hoạt động chính xác.
+    - [ ] Cả hai trang hiển thị ngay ngắn, không bị vỡ layout ở cả 3 mốc 375px, 768px và 1280px.
+    - [ ] Toàn bộ các tiêu chí kiểm thử hồi quy từ Task 1 đến Task 4 đều đạt trạng thái pass.
+    - [ ] File README.md có đầy đủ hướng dẫn kiến trúc, các câu lệnh khởi chạy và thông tin kết nối DBeaver cho người mới.
+  </acceptanceCriteria>
+
+  <testPlan>
+    1. Thử xóa sạch các món trong giỏ hàng xem giao diện empty state có hiện lên không rồi bấm thử nút "Tiếp tục mua sắm".
+    2. Mở DevTools kiểm tra độ tương thích giao diện của từng trang ở 3 kích thước màn hình 375px, 768px và 1280px.
+    3. Chạy kiểm tra hồi quy: dùng lệnh docker compose ps xem cơ sở dữ liệu có healthy không, gọi /api/health kiểm tra kết nối, xem danh sách sản phẩm, thao tác thêm/xóa giỏ hàng và bấm F5 kiểm tra dữ liệu giỏ.
+    4. Đóng vai một người mới hoàn toàn đọc lướt qua file README.md rồi tự chạy thử dự án từ đầu xem có suôn sẻ không.
+  </testPlan>
+
+  <outputRequired>
+    - Danh sách toàn bộ các file mà bạn đã chỉnh sửa trong lượt này.
+    - Bảng tổng hợp kết quả kiểm thử hồi quy từng task với trạng thái pass/fail rõ ràng.
+    - Đưa ra đánh giá tổng kết: những điểm đã làm tốt, những mặt còn hạn chế và các định hướng phát triển tiếp theo nếu có.
+  </outputRequired>
+</prompt>

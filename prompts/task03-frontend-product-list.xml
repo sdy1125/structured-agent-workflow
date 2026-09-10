@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <meta>
+    <project>E-commerce Fullstack Demo</project>
+    <taskId>TASK-03</taskId>
+    <title>Xây dựng trang danh sách sản phẩm ở Frontend gọi API thật và responsive mượt mà</title>
+    <estimatedTime>60-90 phút</estimatedTime>
+  </meta>
+
+  <goal>
+    Ở task này, bạn hãy giúp mình dựng một trang chủ hoàn chỉnh hiển thị danh sách sản phẩm lấy trực tiếp từ API GET /api/products thật của backend chứ không dùng dữ liệu mock nữa nhé. Bố cục dạng lưới cần responsive tốt trên các kích thước màn hình, giá tiền format chuẩn định dạng VND, đồng thời xử lý thật chỉn chu trạng thái đang tải dữ liệu hoặc khi backend gặp lỗi.
+  </goal>
+
+  <context>
+    Hiện tại Task 1 và Task 2 đã xong xuôi rồi, khung Vue đang chạy tốt ở cổng 5173 và API backend /api/products cũng đã sẵn sàng ở cổng 8080. Bạn nhớ lấy đường dẫn gốc của API thông qua biến môi trường của Vite là VITE_API_URL=http://localhost:8080/api nhé.
+  </context>
+
+  <scope>
+    <inScope>
+      - Bạn cấu hình vue-router sao cho khi người dùng vào đường dẫn "/" thì sẽ hiển thị ngay màn hình ProductListPage.
+      - Tạo component ProductCard hiển thị ảnh, tên món đồ, giá tiền VND, danh mục và một nút bấm "Thêm vào giỏ" (chỗ này bạn chỉ cần dựng giao diện nút bấm thôi, chưa cần viết logic xử lý vội).
+      - Xây dựng component ProductList để gọi API theo trang và kích thước (page/size), đồng thời chia lưới linh hoạt: màn hình điện thoại thì chia 2 cột, máy tính bảng chia 3 cột và màn hình máy tính thì để 4 cột.
+      - Thêm các nút phân trang tới/lùi cùng dòng hiển thị "Trang x/y" rõ ràng.
+      - Xử lý các trạng thái giao diện: lúc đang tải dữ liệu thì hiện hiệu ứng chờ/skeleton, nếu mất kết nối thì báo lỗi lịch sự kèm nút thử lại, và nhớ gắn hình ảnh mặc định thay thế đề phòng ảnh sản phẩm bị lỗi đường dẫn.
+      - Viết một hàm tiện ích formatPrice riêng để dùng thống nhất cho việc định dạng tiền tệ VND ở một nơi duy nhất.
+    </inScope>
+
+    <outOfScope>
+      - Tuyệt đối chưa đụng đến logic xử lý giỏ hàng ở đây vì nút bấm chỉ để làm cảnh cho Task 4.
+      - Chưa làm các trang xem chi tiết sản phẩm, ô tìm kiếm hay bộ lọc phân loại.
+      - Không chỉnh sửa hay cấu hình CORS bên phía backend ở lượt này vì đó là việc của task sau.
+    </outOfScope>
+  </scope>
+
+  <hardRules>
+    - Toàn bộ giao diện chỉ sử dụng thuần TailwindCSS chứ không cài thêm bất kỳ thư viện UI bên ngoài nào khác.
+    - Phải gọi dữ liệu thật từ API, nếu backend không phản hồi thì phải báo lỗi rõ ràng trên màn hình chứ không được dùng mock data chữa cháy.
+    - Tất cả thẻ ảnh đều phải có sự kiện bắt lỗi onerror để đổi sang ảnh fallback nếu ảnh gốc bị hỏng.
+  </hardRules>
+
+  <tasks>
+    1. Cài đặt vue-router, cấu hình route và tạo khung trang ProductListPage.
+    2. Viết hàm formatPrice và dựng client gọi fetch API sử dụng biến môi trường VITE_API_URL.
+    3. Hoàn thiện 2 component ProductCard, ProductList kèm thanh điều hướng phân trang.
+    4. Thêm giao diện loading chờ tải và khung báo lỗi khi mất kết nối.
+    5. Tự kiểm tra lại toàn bộ giao diện trên nhiều kích thước màn hình theo đúng kế hoạch test.
+  </tasks>
+
+  <constraints>
+    Thời gian hoàn thành trong khoảng 60 đến 90 phút.
+  </constraints>
+
+  <acceptanceCriteria>
+    - [ ] Màn hình trang chủ hiển thị chính xác số lượng sản phẩm theo đúng thiết lập page/size trả về từ API.
+    - [ ] Giao diện tự co giãn chuẩn xác: mở bằng DevTools thấy mobile ra đúng 2 cột, tablet 3 cột và desktop 4 cột.
+    - [ ] Giá tiền được hiển thị đẹp mắt theo chuẩn tiền tệ, ví dụ như: 1.299.000 đ.
+    - [ ] Khi cố tình tắt backend thì trang web phải hiện thông báo lỗi kèm nút bấm cho người dùng thử lại.
+    - [ ] Bấm nút chuyển trang thì dữ liệu sản phẩm tương ứng phải thay đổi mượt mà.
+  </acceptanceCriteria>
+
+  <testPlan>
+    1. Khởi động npm run dev trong khi backend vẫn chạy: kiểm tra xem trang chủ đã hiện đủ 8 sản phẩm với giá tiền chuẩn chưa.
+    2. Dùng DevTools của trình duyệt kiểm tra độ hiển thị ở 3 mốc kích thước là 375px, 768px và 1280px.
+    3. Thử tắt backend rồi tải lại trang để xem thông báo lỗi và nút thử lại có hiện không; sau đó bật lại backend bấm thử lại xem có tải lại bình thường không.
+    4. Bấm thử các nút phân trang xem nội dung trang mới có tải chuẩn xác không.
+    5. Mở tab Console kiểm tra đảm bảo sạch sẽ, không có bất kỳ dòng log lỗi đỏ nào.
+  </testPlan>
+
+  <outputRequired>
+    - Danh sách các file mà bạn vừa tạo mới hoặc chỉnh sửa.
+    - Báo cáo chi tiết từng mục trong kế hoạch test xem pass hay fail.
+    - Giải thích rõ cách bạn cấu hình biến môi trường VITE_API_URL trong dự án.
+    - Nêu các rủi ro phát sinh nếu có.
+  </outputRequired>
+</prompt>

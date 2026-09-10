@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <meta>
+    <project>E-commerce Fullstack Demo</project>
+    <taskId>TASK-01</taskId>
+    <title>Setup docker-compose PostgreSQL + skeleton Spring Boot + skeleton Vue</title>
+    <estimatedTime>60-90 minutes</estimatedTime>
+  </meta>
+  <goal>
+    Khoi tao nen tang chay duoc: (1) docker-compose PostgreSQL 16 + init 8-10 san pham mau,
+    (2) skeleton Spring Boot ket noi DB thanh cong (endpoint health), (3) skeleton Vue 3 + Vite
+    + Tailwind chay duoc. Sau task nay ket noi DB bang DBeaver duoc.
+  </goal>
+  <context>
+    - May da cai Docker, Node 20+, JDK 17, DBeaver.
+    - Tao thu muc goc "ecommerce-demo": backend/ (Spring Boot), frontend/ (Vue),
+      docker-compose.yml va db/init.sql o thu muc goc.
+    - DB: PostgreSQL 16, db "ecommerce_db", user/pass "postgres"/"postgres", port 5432.
+  </context>
+  <scope>
+    <inScope>
+      - docker-compose.yml: postgres (5432), volume persist, healthcheck; db/init.sql
+        tao bang products (id, name, price numeric, image_url, category, description) + 8-10 dong mau (gia VND)
+      - backend/: Spring Boot 3.x (Web, Data JPA, PostgreSQL Driver), application.yml
+        dung bien moi truong; GET /api/health tra {"status":"ok","db":"connected"} (verify bang select 1)
+      - frontend/: Vue 3 + Vite + TailwindCSS, App.vue don gian, fetch mau toi /api/health
+      - README.md: day du lenh chay DB / backend / frontend
+    </inScope>
+    <outOfScope>
+      - KHONG viet Product entity/repository/API products (task02)
+      - KHONG lam trang danh sach san pham hoan chinh (task03)
+      - KHONG lam gio hang, CORS config chi tiet (task04)
+      - KHONG docker hoa backend/frontend
+    </outOfScope>
+  </scope>
+  <hardRules>
+    - Khong hard-code password trong code Java; dung bien moi truong + default
+    - init.sql chay tu dong khi compose up sach
+    - Moi lenh chay phai co trong README
+  </hardRules>
+  <tasks>
+    1. docker-compose.yml + db/init.sql; chay "docker compose up -d"; verify healthy
+    2. Tao Spring Boot project (Web, Data JPA, PostgreSQL Driver)
+    3. HealthController + ket noi DB thuc te
+    4. Tao Vue + Vite + Tailwind, App.vue don gian
+    5. Viet README.md
+    6. Tu test theo testPlan
+  </tasks>
+  <constraints>
+    - 60-90 phut. Port: 5432 / 8080 / 5173
+  </constraints>
+  <acceptanceCriteria>
+    - [ ] docker compose up -d thanh cong, container healthy
+    - [ ] DBeaver ket noi duoc, thay bang products + 8-10 dong
+    - [ ] GET http://localhost:8080/api/health -> {"status":"ok","db":"connected"}
+    - [ ] npm run dev -> trang "E-commerce Demo" khong loi build
+    - [ ] README du 3 lenh chay
+  </acceptanceCriteria>
+  <testPlan>
+    1. docker compose up -d && docker compose ps -> healthy
+    2. DBeaver: SELECT * FROM products; dem du 8-10 dong
+    3. curl http://localhost:8080/api/health -> JSON dung
+    4. npm run dev, mo trinh duyet khong loi console
+    5. Lam theo README nhu nguoi moi, khong hoi them
+  </testPlan>
+  <outputRequired>
+    - Cay thu muc + danh sach file da tao/sua
+    - Pass/fail tung muc testPlan
+    - Thong so ket noi DBeaver
+    - Rui ro phat sinh (neu co)
+  </outputRequired>
+</prompt>

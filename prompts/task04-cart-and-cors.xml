@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+  <meta>
+    <project>E-commerce Fullstack Demo</project>
+    <taskId>TASK-04</taskId>
+    <title>Cấu hình CORS phía Backend và hoàn thiện tính năng Giỏ hàng ở Frontend với Pinia và localStorage</title>
+    <estimatedTime>60-90 phút</estimatedTime>
+  </meta>
+
+  <goal>
+    Mục tiêu của task này gồm hai phần chính: đầu tiên bạn cấu hình CORS bên Spring Boot để frontend ở cổng 5173 thoải mái gọi API mà không bị trình duyệt chặn; tiếp theo bạn hoàn thiện toàn bộ tính năng giỏ hàng bên phía giao diện từ việc thêm, sửa số lượng, xóa món đồ, tính tổng tiền, lưu giữ lại trong localStorage, cập nhật số lượng nhảy trên icon giỏ hàng và dựng riêng một trang xem giỏ hàng nhé.
+  </goal>
+
+  <context>
+    Tasks từ 1 đến 3 đều đã xong, API chạy tốt và giao diện cũng đã kết nối được dữ liệu. Nhưng hiện tại trình duyệt vẫn đang chặn các request từ cổng 5173 sang 8080 do chưa mở CORS. Về phần quản lý trạng thái thì chúng ta sẽ dùng thư viện Pinia đúng như tài liệu FRS đã đề ra.
+  </context>
+
+  <scope>
+    <inScope>
+      - Phía backend: bổ sung cấu hình CORS cho phép origin http://localhost:5173, hỗ trợ đầy đủ các phương thức GET, POST, PUT, DELETE cùng các header thông dụng.
+      - Phía frontend: tiến hành cài Pinia và tạo một store giỏ hàng (cart store) chứa:
+        * Mảng danh sách sản phẩm gồm: mã sản phẩm, tên, đơn giá, link ảnh và số lượng mua.
+        * Các hành động: thêm sản phẩm, cập nhật số lượng, xóa từng món và xóa sạch giỏ hàng.
+        * Các thuộc tính tính toán: tính tổng số lượng món đồ và tính tổng số tiền thanh toán.
+        * Tự động lưu toàn bộ dữ liệu vào localStorage với khóa "cart" và khôi phục nguyên vẹn khi người dùng bấm F5 hoặc mở lại trang.
+      - Cập nhật thanh điều hướng trên cùng: hiển thị huy hiệu (badge) đếm tổng số lượng món đồ trên icon giỏ hàng, người dùng bấm vào sẽ chuyển thẳng đến trang /cart.
+      - Dựng trang CartPage riêng: hiển thị bảng các món đã chọn, các nút bấm tăng giảm số lượng hoặc xóa, tổng số tiền cần trả và một nút "Thanh toán" (phần thanh toán này chỉ cần làm giao diện kèm thông báo "Tính năng đang phát triển" là được).
+      - Bắt sự kiện bấm nút "Thêm vào giỏ" ở từng thẻ sản phẩm để gọi hàm thêm vào store kèm theo một hiệu ứng phản hồi nhỏ như đổi chữ thành "Đã thêm" hoặc hiện thông báo nhẹ.
+    </inScope>
+
+    <outOfScope>
+      - Không tạo bảng hay viết API giỏ hàng dưới cơ sở dữ liệu backend.
+      - Không làm quy trình thanh toán thật hay áp dụng mã giảm giá.
+      - Tuyệt đối không chỉnh sửa lại các API sản phẩm đã làm ở Task 2.
+    </outOfScope>
+  </scope>
+
+  <hardRules>
+    - Số lượng món đồ trong giỏ không bao giờ được phép nhỏ hơn 1; nếu người dùng đang ở mức 1 mà bấm nút giảm trừ thì phải chuyển thành thao tác xóa món đồ đó.
+    - Tổng tiền phải được tính toán dựa trên số nguyên tiền tệ chuẩn của Việt Nam đồng, không được làm tròn sai lệch.
+    - Phải có cơ chế xử lý lỗi khi đọc localStorage đề phòng dữ liệu bị lỗi cú pháp parse JSON thì tự động đưa giỏ hàng về trạng thái rỗng an toàn.
+  </hardRules>
+
+  <tasks>
+    1. Cấu hình CORS bên phía Spring Boot, khởi động lại và dùng lệnh curl để xác nhận đã có header Access-Control-Allow-Origin trả về.
+    2. Cài đặt Pinia vào frontend, hoàn thiện store quản lý giỏ hàng đầy đủ action, getter và cơ chế lưu localStorage.
+    3. Chỉnh sửa AppHeader để hiển thị số lượng trên icon giỏ hàng.
+    4. Xây dựng trang CartPage và đăng ký đường dẫn /cart vào router.
+    5. Gắn sự kiện click thêm vào giỏ hàng cho từng nút bấm trên thẻ ProductCard.
+    6. Tự chạy kiểm thử lại toàn bộ các trường hợp theo kế hoạch test.
+  </tasks>
+
+  <constraints>
+    Thời gian hoàn thành trong khoảng 60 đến 90 phút.
+  </constraints>
+
+  <acceptanceCriteria>
+    - [ ] Giao diện gọi API backend mượt mà, không còn thấy bất kỳ lỗi CORS nào xuất hiện trong console của trình duyệt.
+    - [ ] Thêm thử 2 sản phẩm khác nhau thì huy hiệu giỏ hàng nhảy số 2; nếu thêm lại món đã có thì số lượng của món đó tự tăng lên.
+    - [ ] Thử tăng giảm số lượng hoặc xóa món đồ thì tổng tiền phải nhảy chính xác so với giá trị gốc xem trên DBeaver.
+    - [ ] Bấm F5 tải lại trang hay tắt đi mở lại tab thì dữ liệu trong giỏ hàng vẫn giữ nguyên vẹn.
+    - [ ] Khi giỏ hàng không có gì thì phải hiển thị thông báo giỏ trống rõ ràng chứ không được bị lỗi giao diện.
+  </acceptanceCriteria>
+
+  <testPlan>
+    1. Vào trang chủ, bấm thêm 3 món khác nhau kiểm tra huy hiệu có hiện số 3 không.
+    2. Bấm thêm tiếp 1 món đã có kiểm tra huy hiệu có tăng lên 4 và số lượng món đó có thành 2 không.
+    3. Chuyển sang trang /cart đối chiếu công thức tổng tiền xem có khớp chuẩn xác với giá tiền trong cơ sở dữ liệu qua DBeaver không.
+    4. Thử F5 tải lại trang hoặc đóng tab mở lại để xác nhận giỏ hàng không bị mất dữ liệu.
+    5. Xóa hết tất cả sản phẩm kiểm tra giao diện thông báo giỏ trống.
+    6. Bật tab Console và Network lên kiểm tra xem có request nào bị lỗi chặn kết nối CORS không.
+  </testPlan>
+
+  <outputRequired>
+    - Liệt kê danh sách các file đã tạo mới hoặc chỉnh sửa ở cả hai phía backend và frontend.
+    - Báo cáo kết quả kiểm thử pass hoặc fail cho từng bước trong testPlan.
+    - Nêu rõ quyết định về cấu trúc dữ liệu giỏ hàng mà bạn đã chọn sử dụng.
+    - Ghi nhận các rủi ro kỹ thuật còn tồn đọng nếu có.
+  </outputRequired>
+</prompt>
