@@ -1,13 +1,12 @@
 # E-COMMERCE WORKFLOW KIT
-Bo cong cu lam viec voi AI Coding Agent theo quy trinh chuan:
 FRS -> Plan -> Task nho -> prompt.xml -> Agent loop -> Evaluate.
 
 ## Cau truc
 
-- 00-FRS.md ........................... Dac ta yeu cau (doc truoc khi bat dau)
+- 00-FRS.md ........................... Dac ta yeu cau 
 - 01-PLAN-TASKS.md .................... Plan tong the + bang theo doi tien do
-- 02-AGENTS.md ......................... Quy tac bat buoc danh cho Agent (dat o thu muc goc repo)
-- prompts/task01..task05.xml .......... Prompt chuan cho tung task
+- 02-AGENTS.md ......................... Quy tac bat buoc danh cho Agent
+- prompts/task01..task05.xml .......... Prompt cho tung task
 
 1. Doc 00-FRS.md, sua lai cho dung y ban (stack, pham vi).
 2. Tao repo "ecommerce-demo", copy 02-AGENTS.md vao thu muc goc repo.
