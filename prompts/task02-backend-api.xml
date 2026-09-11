@@ -3,64 +3,70 @@
   <meta>
     <project>E-commerce Fullstack Demo</project>
     <taskId>TASK-02</taskId>
-    <title>Backend API: Product entity + GET /api/products (phan trang) + GET /{id}</title>
-    <estimatedTime>60-90 minutes</estimatedTime>
+    <title>Xây dựng Backend API: Ánh xạ Product Entity, API phân trang GET /api/products và API chi tiết GET /{id}</title>
+    <estimatedTime>60-90 phút</estimatedTime>
   </meta>
+
   <goal>
-    Xay dung API doc san pham hoan chinh tu PostgreSQL: entity Product map dung bang products
-    da co, GET /api/products ho tro phan trang (page, size, tra kem totalPages/totalElements),
-    GET /api/products/{id} tra 404 khi khong tim thay.
+    Ở task này, bạn hãy giúp mình xây dựng bộ API đọc dữ liệu sản phẩm hoàn chỉnh từ PostgreSQL: tạo entity Product ánh xạ chính xác với bảng products đã có từ trước, viết endpoint GET /api/products hỗ trợ phân trang (nhận tham số page, size và trả về kèm thông tin totalPages, totalElements), đồng thời viết endpoint GET /api/products/{id} có khả năng xử lý trả về mã lỗi 404 nếu không tìm thấy món đồ nhé.
   </goal>
+
   <context>
-    - TASK-01 da xong: Spring Boot chay o port 8080, ket noi DB tot, bang products co du lieu.
-    - Bang products: id (bigint, khoa chinh), name, price numeric, image_url, category, description.
-    - Khong duoc sua cau truc bang (init.sql la nguon that).
+    Task 1 đã hoàn tất ổn định: Spring Boot đang chạy ở cổng 8080, kết nối cơ sở dữ liệu rất tốt và bảng products đã có sẵn dữ liệu mẫu. Cấu trúc bảng products gồm các cột: id (khóa chính kiểu bigint), name, price kiểu numeric, image_url, category và description. Bạn lưu ý tuyệt đối không chỉnh sửa lại cấu trúc bảng này vì file db/init.sql là nguồn dữ liệu gốc duy nhất.
   </context>
+
   <scope>
     <inScope>
-      - Product entity (JPA) map dung bang; ProductDTO tra ra API (khong lo thong tin noi bo)
-      - ProductRepository (JpaRepository); ProductService; ProductController
-      - GET /api/products?page=0&size=8 -> {"content":[...], "totalPages":n, "totalElements":n, "page":0, "size":8}
-      - GET /api/products/{id} -> 200 + JSON, hoac 404 {"error":"Product not found"}
-      - Xu ly loi: 404 cho sai id; 500 tra JSON loi chung {"error":"Internal error"}
+      - Tạo entity Product (JPA) ánh xạ đúng các cột của bảng; tạo thêm ProductDTO để trả dữ liệu ra bên ngoài nhằm tránh lộ thông tin nội bộ của Entity.
+      - Viết đầy đủ ProductRepository (kế thừa JpaRepository), tầng ProductService và ProductController.
+      - Xây dựng endpoint GET /api/products?page=0&size=8 trả về cấu trúc dạng: {"content":[...], "totalPages":n, "totalElements":n, "page":0, "size":8}.
+      - Xây dựng endpoint GET /api/products/{id}: nếu tìm thấy thì trả mã 200 kèm JSON chi tiết sản phẩm, nếu không thấy thì trả mã 404 kèm thông điệp {"error":"Product not found"}.
+      - Viết bộ xử lý ngoại lệ tập trung đơn giản: mã 404 cho trường hợp sai id sản phẩm và mã 500 trả về JSON chung dạng {"error":"Internal error"} cho các sự cố hệ thống.
     </inScope>
+
     <outOfScope>
-      - KHONG lam POST/PUT/DELETE (CRUD ghi)
-      - KHONG lam tim kiem/loc/category filter (task sau neu can)
-      - KHONG lam security, validation phuc tap, cache
+      - Tuyệt đối chưa viết các API thay đổi dữ liệu như POST, PUT, DELETE (CRUD ghi).
+      - Chưa làm tính năng tìm kiếm, bộ lọc nâng cao hay lọc theo danh mục (category) ở task này.
+      - Chưa đụng tới cấu hình bảo mật phân quyền, kiểm tra dữ liệu quá phức tạp hay cài đặt bộ nhớ đệm cache.
     </outOfScope>
   </scope>
+
   <hardRules>
-    - Gia tra ve API la number nguyen (VND), khong dinh dang string
-    - Dung DTO, khong tra truc tiep Entity
-    - Code theo lop: controller -> service -> repository
+    - Giá tiền sản phẩm khi trả về qua API phải ở dạng số nguyên (VND), không được định dạng thành chuỗi ký tự.
+    - Luôn luôn dùng DTO để trả kết quả ra ngoài API, tuyệt đối không trả thẳng thực thể Entity ra ngoài controller.
+    - Tổ chức mã nguồn chuẩn mô hình phân lớp rõ ràng: Controller -> Service -> Repository.
   </hardRules>
+
   <tasks>
-    1. Tao Product entity + ProductDTO
-    2. ProductRepository + ProductService (phan trang bang Pageable)
-    3. ProductController: 2 endpoint + xu ly 404
-    4. Global exception handler don gian (@RestControllerAdvice)
-    5. Tu test bang curl theo testPlan
+    1. Tạo thực thể Product entity cùng lớp dữ liệu ProductDTO tương ứng.
+    2. Viết ProductRepository và ProductService hỗ trợ lấy dữ liệu phân trang bằng Pageable.
+    3. Viết ProductController chứa 2 endpoint đọc dữ liệu và xử lý trường hợp không tìm thấy sản phẩm.
+    4. Tạo lớp xử lý ngoại lệ toàn cục đơn giản sử dụng annotation @RestControllerAdvice.
+    5. Tự dùng lệnh curl để kiểm tra lại các endpoint theo đúng kế hoạch test.
   </tasks>
+
   <constraints>
-    - 60-90 phut. Khong doi port, khong sua DB
+    Thời gian thực hiện trong khoảng 60 đến 90 phút. Giữ nguyên cổng dịch vụ và tuyệt đối không sửa đổi cơ sở dữ liệu.
   </constraints>
+
   <acceptanceCriteria>
-    - [ ] GET /api/products tra dung 8 san pham (page=0&size=8), co totalElements = so dong trong DB
-    - [ ] GET /api/products/1 tra dung 1 san pham
-    - [ ] GET /api/products/9999 -> HTTP 404 + JSON loi
-    - [ ] Backend khoi dong khong loi, log khong co exception
+    - [ ] Gọi GET /api/products trả về chính xác 8 sản phẩm (khi truyền page=0&size=8) và có trường totalElements khớp với tổng số dòng thực tế trong database.
+    - [ ] Gọi GET /api/products/1 trả về thông tin chi tiết của đúng sản phẩm đó.
+    - [ ] Gọi GET /api/products/9999 trả về mã HTTP 404 kèm theo gói tin JSON thông báo lỗi.
+    - [ ] Ứng dụng backend khởi động trơn tru, không xuất hiện bất kỳ exception nào trong màn hình log.
   </acceptanceCriteria>
+
   <testPlan>
-    1. mvn spring-boot:run
-    2. curl "http://localhost:8080/api/products?page=0&size=8" -> kiem tra cau truc JSON
-    3. curl "http://localhost:8080/api/products/1" vs "/9999" (doi chieu AC)
-    4. curl page=1&size=4 -> content khac page=0
-    5. Doi chieu so lieu voi DBeaver: SELECT count(*) FROM products
+    1. Chạy lệnh mvn spring-boot:run để khởi động ứng dụng.
+    2. Dùng curl gọi "http://localhost:8080/api/products?page=0&size=8" để rà soát lại cấu trúc JSON trả về.
+    3. Dùng curl gọi thử hai đường dẫn "http://localhost:8080/api/products/1" và "/api/products/9999" đối chiếu với tiêu chí chấp nhận.
+    4. Thử gọi curl với tham số page=1&size=4 xem nội dung trả về có khác biệt so với trang đầu tiên không.
+    5. Mở DBeaver chạy lệnh: SELECT count(*) FROM products; để đối chiếu tổng số dòng với giá trị totalElements của API.
   </testPlan>
+
   <outputRequired>
-    - Danh sach file da tao/sua + mo ta tung endpoint
-    - Pass/fail tung muc testPlan (kem curl da chay)
-    - Rui ro (neu co)
+    - Danh sách các file bạn đã tạo mới hoặc chỉnh sửa kèm phần mô tả ngắn cho từng endpoint.
+    - Báo cáo chi tiết pass/fail cho từng bước trong testPlan kèm theo các câu lệnh curl thực tế đã chạy.
+    - Nêu các rủi ro kỹ thuật còn tồn tại nếu có.
   </outputRequired>
 </prompt>

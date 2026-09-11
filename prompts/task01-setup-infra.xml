@@ -3,70 +3,73 @@
   <meta>
     <project>E-commerce Fullstack Demo</project>
     <taskId>TASK-01</taskId>
-    <title>Setup docker-compose PostgreSQL + skeleton Spring Boot + skeleton Vue</title>
-    <estimatedTime>60-90 minutes</estimatedTime>
+    <title>Khởi tạo hạ tầng Docker Compose chạy PostgreSQL và dựng khung cơ bản cho Spring Boot cùng Vue</title>
+    <estimatedTime>60-90 phút</estimatedTime>
   </meta>
+
   <goal>
-    Khoi tao nen tang chay duoc: (1) docker-compose PostgreSQL 16 + init 8-10 san pham mau,
-    (2) skeleton Spring Boot ket noi DB thanh cong (endpoint health), (3) skeleton Vue 3 + Vite
-    + Tailwind chay duoc. Sau task nay ket noi DB bang DBeaver duoc.
+    Ở task mở đầu này, bạn hãy giúp mình dựng sẵn một nền tảng chạy được hoàn chỉnh gồm ba việc: (1) viết file docker-compose để chạy PostgreSQL 16 và tự động nạp sẵn khoảng 8 đến 10 sản phẩm mẫu, (2) dựng khung dự án Spring Boot kết nối thành công tới database kèm một endpoint kiểm tra trạng thái hoạt động (health check), (3) khởi tạo khung ứng dụng Vue 3 kết hợp Vite và TailwindCSS chạy mượt mà. Mục tiêu là ngay sau task này, mình có thể mở DBeaver lên và kết nối vào cơ sở dữ liệu bình thường nhé.
   </goal>
+
   <context>
-    - May da cai Docker, Node 20+, JDK 17, DBeaver.
-    - Tao thu muc goc "ecommerce-demo": backend/ (Spring Boot), frontend/ (Vue),
-      docker-compose.yml va db/init.sql o thu muc goc.
-    - DB: PostgreSQL 16, db "ecommerce_db", user/pass "postgres"/"postgres", port 5432.
+    Môi trường máy tính của mình đã cài sẵn đầy đủ Docker, Node.js từ bản 20 trở lên, JDK 17 và công cụ DBeaver rồi. Bạn hãy tạo một thư mục gốc tên là "ecommerce-demo", bên trong chứa thư mục backend/ cho Spring Boot, frontend/ cho Vue, đồng thời đặt file docker-compose.yml và file script db/init.sql ngay ở thư mục gốc nhé. Thông số database dự kiến dùng PostgreSQL 16, tên db là "ecommerce_db", tài khoản và mật khẩu đều để là "postgres", mở ở cổng chuẩn 5432.
   </context>
+
   <scope>
     <inScope>
-      - docker-compose.yml: postgres (5432), volume persist, healthcheck; db/init.sql
-        tao bang products (id, name, price numeric, image_url, category, description) + 8-10 dong mau (gia VND)
-      - backend/: Spring Boot 3.x (Web, Data JPA, PostgreSQL Driver), application.yml
-        dung bien moi truong; GET /api/health tra {"status":"ok","db":"connected"} (verify bang select 1)
-      - frontend/: Vue 3 + Vite + TailwindCSS, App.vue don gian, fetch mau toi /api/health
-      - README.md: day du lenh chay DB / backend / frontend
+      - Viết file docker-compose.yml khởi chạy dịch vụ postgres ở cổng 5432, có cấu hình volume để lưu dữ liệu lâu dài và có thiết lập healthcheck; đi kèm file db/init.sql tạo sẵn bảng products (với các cột: id, name, price kiểu numeric, image_url, category, description) cùng 8-10 dòng dữ liệu mẫu theo giá tiền Việt Nam đồng.
+      - Phía backend/: Khởi tạo dự án Spring Boot 3.x với các dependency cần thiết gồm Spring Web, Spring Data JPA, PostgreSQL Driver; cấu hình file application.yml ưu tiên đọc qua biến môi trường; tạo endpoint GET /api/health trả về JSON dạng {"status":"ok","db":"connected"} (bằng cách thực thi truy vấn select 1 để xác thực kết nối thật).
+      - Phía frontend/: Khởi tạo dự án Vue 3 kết hợp Vite và TailwindCSS, viết giao diện App.vue đơn giản và thử gọi mẫu tới endpoint /api/health của backend.
+      - Viết file README.md hướng dẫn chi tiết các câu lệnh để khởi chạy database, backend và frontend cho người mới.
     </inScope>
+
     <outOfScope>
-      - KHONG viet Product entity/repository/API products (task02)
-      - KHONG lam trang danh sach san pham hoan chinh (task03)
-      - KHONG lam gio hang, CORS config chi tiet (task04)
-      - KHONG docker hoa backend/frontend
+      - Tuyệt đối chưa viết Entity, Repository hay các API liên quan đến danh sách sản phẩm ở đây (chúng ta sẽ làm việc này ở Task 2).
+      - Chưa cần dựng giao diện hiển thị danh sách sản phẩm hoàn chỉnh (để dành sang Task 3).
+      - Chưa đụng đến logic giỏ hàng hay cấu hình chi tiết CORS giữa hai bên (sẽ xử lý ở Task 4).
+      - Chưa cần docker hóa mã nguồn backend và frontend thành container vội.
     </outOfScope>
   </scope>
+
   <hardRules>
-    - Khong hard-code password trong code Java; dung bien moi truong + default
-    - init.sql chay tu dong khi compose up sach
-    - Moi lenh chay phai co trong README
+    - Không được hard-code trực tiếp mật khẩu database vào trong mã nguồn Java mà phải nạp qua biến môi trường và đặt giá trị mặc định an toàn.
+    - File init.sql phải tự động chạy và nạp dữ liệu trơn tru ngay khi container postgres được bật lên lần đầu tiên.
+    - Mọi câu lệnh cần thiết để chạy dự án đều phải được ghi lại rõ ràng trong file README.md.
   </hardRules>
+
   <tasks>
-    1. docker-compose.yml + db/init.sql; chay "docker compose up -d"; verify healthy
-    2. Tao Spring Boot project (Web, Data JPA, PostgreSQL Driver)
-    3. HealthController + ket noi DB thuc te
-    4. Tao Vue + Vite + Tailwind, App.vue don gian
-    5. Viet README.md
-    6. Tu test theo testPlan
+    1. Viết docker-compose.yml cùng db/init.sql, sau đó chạy thử lệnh "docker compose up -d" và kiểm tra xem container đã chuyển sang trạng thái healthy chưa.
+    2. Khởi tạo khung dự án Spring Boot với đủ 3 thư viện: Web, Data JPA và PostgreSQL Driver.
+    3. Viết HealthController để kiểm tra tình trạng kết nối tới cơ sở dữ liệu thực tế.
+    4. Tạo khung dự án Vue với Vite và Tailwind, dựng file App.vue giao diện cơ bản.
+    5. Viết tài liệu README.md hướng dẫn đầy đủ các bước chạy.
+    6. Tự chạy kiểm thử lại toàn bộ các bước theo kế hoạch test.
   </tasks>
+
   <constraints>
-    - 60-90 phut. Port: 5432 / 8080 / 5173
+    Thời gian hoàn thành gói gọn trong khoảng 60 đến 90 phút. Giữ nguyên các cổng mặc định: 5432 cho database, 8080 cho backend và 5173 cho frontend.
   </constraints>
+
   <acceptanceCriteria>
-    - [ ] docker compose up -d thanh cong, container healthy
-    - [ ] DBeaver ket noi duoc, thay bang products + 8-10 dong
-    - [ ] GET http://localhost:8080/api/health -> {"status":"ok","db":"connected"}
-    - [ ] npm run dev -> trang "E-commerce Demo" khong loi build
-    - [ ] README du 3 lenh chay
+    - [ ] Lệnh docker compose up -d chạy mượt mà, container postgres báo trạng thái healthy.
+    - [ ] Dùng công cụ DBeaver kết nối vào database thành công, nhìn thấy bảng products và có sẵn từ 8 đến 10 dòng dữ liệu mẫu.
+    - [ ] Gửi request GET tới http://localhost:8080/api/health nhận về đúng kết quả {"status":"ok","db":"connected"}.
+    - [ ] Chạy npm run dev ở frontend thì mở ra trang "E-commerce Demo" bình thường, không gặp bất kỳ lỗi build nào.
+    - [ ] File README.md ghi đầy đủ 3 nhóm lệnh khởi chạy cho cả ba phần.
   </acceptanceCriteria>
+
   <testPlan>
-    1. docker compose up -d && docker compose ps -> healthy
-    2. DBeaver: SELECT * FROM products; dem du 8-10 dong
-    3. curl http://localhost:8080/api/health -> JSON dung
-    4. npm run dev, mo trinh duyet khong loi console
-    5. Lam theo README nhu nguoi moi, khong hoi them
+    1. Chạy lệnh docker compose up -d và dùng docker compose ps kiểm tra trạng thái healthy của container.
+    2. Mở DBeaver gõ lệnh: SELECT * FROM products; để kiểm tra xem đã có đủ từ 8 đến 10 dòng sản phẩm chưa.
+    3. Dùng lệnh curl http://localhost:8080/api/health xem cấu trúc JSON trả về có đúng như yêu cầu không.
+    4. Chạy npm run dev, mở trình duyệt lên và mở tab Console xem có bị dính lỗi nào không.
+    5. Đóng vai một người mới hoàn toàn làm theo từng bước trong file README xem có chạy được trơn tru mà không cần hỏi thêm gì không.
   </testPlan>
+
   <outputRequired>
-    - Cay thu muc + danh sach file da tao/sua
-    - Pass/fail tung muc testPlan
-    - Thong so ket noi DBeaver
-    - Rui ro phat sinh (neu co)
+    - Cây thư mục dự án và danh sách tất cả các file đã được tạo mới.
+    - Báo cáo kết quả kiểm thử pass/fail chi tiết cho từng mục trong testPlan.
+    - Ghi lại thông số cấu hình chuẩn để kết nối DBeaver.
+    - Nêu các rủi ro phát sinh trong quá trình thiết lập nếu có.
   </outputRequired>
 </prompt>
