@@ -1,9 +1,9 @@
-# AGENTS.md — QUY TAC BAT BUOC CHO AI CODING AGENT
+# AGENTS.md 
 
-## Quy trinh bat buoc voi MOI task
-1. DOC KY file prompt.xml cua task hien tai truoc khi viet bat ky dong code nao.
-2. TOM TAT lai: (a) ban hieu task nay la gi, (b) mini plan cac buoc,
-   (c) nhung diem chua ro can hoi. CHO nguoi dung xac nhan roi moi code.
+## Quy trinh bat buoc voi moi task
+1. Doc ky file prompt.xml cua task hien tai truoc khi viet bat ky dong code nao.
+2. Tom tac lai: (a) ban hieu task nay la gi, (b) mini plan cac buoc,
+   (c) nhung diem chua ro can hoi. Cho nguoi dung xac nhan roi moi code.
 3. Chi lam nhung gi nam trong <inScope>. Tuyet doi khong cham <outOfScope>.
 4. Tuan thu <hardRules>. Neu bat buoc phai vi pham, phai hoi truoc.
 5. Sau khi code: TU chay test theo <testPlan>, bao cao pass/fail tung muc.
