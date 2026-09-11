@@ -17,10 +17,4 @@ ecommerce-demo/
 
 Status: [ ] TODO  [~] DOING  [x] DONE  [!] BLOCKED (ghi ly do)
 
-## Nhat ky (ghi moi lan lam xong 1 task)
-- Task 1 - ngay 2026-09-09: Hoan tat PostgreSQL Docker, Spring Boot health check va Vue/Vite/Tailwind skeleton; da test DB, API va Vite proxy.
-- Task 2 - ngay 2026-09-09: Hoan tat Product API doc du lieu, phan trang, DTO va xu ly loi 404/500; da test voi PostgreSQL Docker.
-- Task 3 - ngay 2026-09-09: Hoan tat danh sach san pham Vue, phan trang, loading/error va image fallback; da test API qua Vite proxy.
-- Task 4 - ngay 2026-09-09: Hoan tat CORS backend va gio hang Pinia/localStorage; da test CORS, actions/getters, persistence va cac route frontend.
-- Task 5 - ngay 2026-09-09: Hoan thien empty state, Header va responsive; cap nhat README; kiem thu hoi quy Task 1-4 va build production deu PASS.
-- Task 2 - ngay ... : ...
+## Nhat ky 
