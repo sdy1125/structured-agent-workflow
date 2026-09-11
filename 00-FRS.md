@@ -1,4 +1,4 @@
-# FRS – E-commerce Fullstack Demo (Vue 3 + Spring Boot + PostgreSQL/Docker)
+# FRS – E-commerce Fullstack Demo
 
 ## 1. Muc tieu
 Xay dung web ban hang don gian, day du Fullstack, chay duoc tren Docker.
